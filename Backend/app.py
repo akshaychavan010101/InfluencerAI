@@ -3,13 +3,8 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 # routes
-from routes.influencer import Influencer_bp
-
-# models
-from schemamodels.transcripts import Transcripts
-from schemamodels.qna import QnA
-from config.db import Connection
-
+from routes.influencer_route import influencer_bp
+from routes.train_route import train_bp
 
 load_dotenv()
 
@@ -22,7 +17,8 @@ def api():
     return jsonify({'message': 'Hello, World!'})
 
 
-app.register_blueprint(Influencer_bp, url_prefix='/influencers')
+app.register_blueprint(influencer_bp, url_prefix='/api/v1/influencers')
+app.register_blueprint(train_bp, url_prefix='/api/v1/train')
 
 
 if __name__ == '__main__':

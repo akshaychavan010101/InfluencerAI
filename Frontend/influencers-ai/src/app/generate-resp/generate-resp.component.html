@@ -1,0 +1,37 @@
+<main>
+  <div class="left">
+    <h2>Previous QnAs</h2>
+    <div *ngIf="fetchedQnAs.length <= 0" style="margin-top: 25px">
+      <h3>You have no previous QnAs. Add some</h3>
+    </div>
+    <div class="previous-qna-divs" *ngFor="let qna of fetchedQnAs">
+      <h3>{{ qna.question }}</h3>
+      <p>{{ qna.answer }}</p>
+    </div>
+  </div>
+  <div class="req-res-container">
+    <div class="response-container">
+      <h2>Response</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+        voluptatibus, quibusdam, quia, quos voluptatem voluptatum quod
+        exercitationem quas voluptates quidem doloribus. Quisquam voluptatibus,
+        quibusdam, quia, quos voluptatem voluptatum quod exercitationem quas
+        voluptates quidem doloribus.
+      </p>
+    </div>
+    <div class="generate-response">
+      <h2>Ask me question</h2>
+      <form>
+        <input
+          name="question"
+          id="question"
+          autofocus
+          placeholder="Enter your question here"
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+  <div class="right"></div>
+</main>

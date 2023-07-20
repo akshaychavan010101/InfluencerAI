@@ -1,0 +1,106 @@
+main {
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 80vh;
+}
+
+.left,
+.right {
+  width: 30%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.left h2 {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.previous-qna-divs {
+  width: 90%;
+  padding: 0px 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 15px 0px;
+  background-color: rgb(230, 229, 229);
+  line-height: 7px;
+}
+
+.previous-qna-divs h3 {
+  color: #000000;
+  font-weight: 600;
+}
+
+.previous-qna-divs p {
+  color: green;
+  font-weight: 400;
+}
+
+.req-res-container {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.response-container {
+  width: 95%;
+  height: 60%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  overflow-y: scroll;
+}
+
+.left::-webkit-scrollbar,
+.right::-webkit-scrollbar,
+.response-container::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.generate-response {
+  width: 100%;
+  height: 30%;
+  padding: 1rem 0;
+  border-radius: 5px;
+}
+
+.generate-response h2 {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.generate-response form {
+  display: flex;
+  flex-direction: column;
+}
+
+.generate-response form input {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  box-shadow: rgba(33, 35, 37, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.generate-response form button {
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgb(63, 116, 196);
+  color: #fff;
+  font-weight: 600;
+  outline: none;
+}
+
+.generate-response form button:hover {
+  background-color: rgb(63, 116, 196, 0.8);
+}

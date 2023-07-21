@@ -53,9 +53,13 @@ export class TrainComponent implements OnInit {
       .subscribe(
         (res) => {
           console.log(res);
+          this.qnaForm.question = '';
+          this.qnaForm.answer = '';
         },
         (err) => {
           console.log(err);
+          this.qnaForm.question = '';
+          this.qnaForm.answer = '';
         }
       );
   }
@@ -78,10 +82,12 @@ export class TrainComponent implements OnInit {
           this.influencer = res.data;
           sessionStorage.setItem('influencer_name', this.influencer.name);
         } else {
+          sessionStorage.removeItem('token');
           window.location.href = '/home';
         }
       },
       (err) => {
+        sessionStorage.removeItem('token');
         window.location.href = '/home';
       }
     );

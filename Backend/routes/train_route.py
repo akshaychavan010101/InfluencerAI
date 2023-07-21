@@ -1,5 +1,8 @@
 from flask import Blueprint, request, jsonify
 from bson import ObjectId
+import json
+import chardet
+from train.json_convert import converToJsonviaChat
 # models
 from schemamodels.transcripts import TranscriptsModel
 from schemamodels.qna import QnAModel
@@ -7,12 +10,14 @@ from schemamodels.qna import QnAModel
 # collections
 from config.db import transcripts_collection
 from config.db import qna_collection
+from config.db import influencers_collection
+
 
 # authentication
 from authentication.authentication import authentication
 
 # trainer prompt
-from train.trainer_prompt import trainer_prompt
+from train.trainer_prompt import chatGenResp
 
 train_bp = Blueprint('train_bp', __name__)
 
@@ -34,6 +39,24 @@ def add_transcript():
         return jsonify({"status": "success", "message": "Transcript Added"}), 201
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
+
+
+@train_bp.route('/add-transcript-file', methods=['POST'])
+@authentication
+def add_transcript_file():
+    try:
+        influencer_id = request.environ['influencer_id']
+        # get the file from the request body
+        file = request.files['file']
+        json_result = converToJsonviaChat(file, "trasncript", influencer_id)
+
+        json_result = json.loads(json_result)
+        if json_result["ok"]:
+            return jsonify({"status": "success", "message": "Transcript Added"}), 201
+        else:
+            return jsonify({"status": "error", "message": str(json_result["message"])}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": "Error in adding the file, check type"}), 400
 
 
 @train_bp.route('/get-transcripts', methods=['GET'])
@@ -62,6 +85,25 @@ def add_qna():
         return jsonify({"status": "error", "message": str(e)}), 400
 
 
+@train_bp.route('/add-qnas-file', methods=['POST'])
+@authentication
+def add_qnas_file():
+    try:
+        influencer_id = request.environ['influencer_id']
+        # get the file from the request body
+        file = request.files['file']
+        # json conversion
+        json_result = converToJsonviaChat(file, "qna", influencer_id)
+
+        json_result = json.loads(json_result)
+        if json_result["ok"]:
+            return jsonify({"status": "success", "message": "QnAs Added"}), 201
+        else:
+            return jsonify({"status": "error", "message": 'File is not compatible'}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": "Error in adding the file, check type"}), 400
+
+
 @train_bp.route('/get-qnas', methods=['GET'])
 @authentication
 def get_qna():
@@ -69,6 +111,10 @@ def get_qna():
     try:
         qnas = list(qna_collection.find(
             {"influencer_id": ObjectId(influencer_id)}))
+
+        for qna in qnas.copy():
+            qna['_id'] = str(qna['_id'])
+            qna['influencer_id'] = str(qna['influencer_id'])
         return jsonify({"status": "success", "data": qnas}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
@@ -86,5 +132,25 @@ def train():
         prompt = trainer_prompt(sampleQnA, transcripts)
         print(prompt)
         return jsonify({"status": "success", "message": "Training Complete"}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
+
+
+@train_bp.route("/generate-response", methods=['POST'])
+@authentication
+def generate_response():
+    body = request.json
+    try:
+        influencer_id = ObjectId(request.environ['influencer_id'])
+        influencer = influencers_collection.find_one(
+            {"_id": influencer_id})
+        if not influencer:
+            return jsonify({"status": "error", "message": "Error generating response"}), 404
+        response = chatGenResp(body['query'])
+        # update the isFirstQuery
+        influencers_collection.update_one({"_id": influencer_id}, {
+            "$set": {"isFirstQuery": False}})
+
+        return jsonify({"status": "success", "data": response}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400

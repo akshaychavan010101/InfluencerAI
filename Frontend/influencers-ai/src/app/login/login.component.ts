@@ -25,6 +25,7 @@ export class LoginComponent {
   }
 
   login(): void {
+    this.loginMessage = '';
     this.loginwaiting = true;
     this.authApiService
       .userLogin({
@@ -47,12 +48,13 @@ export class LoginComponent {
         },
         (err) => {
           this.loginwaiting = false;
-          this.loginMessage = err.error.message;
+          this.loginMessage = err.error.message || 'Something went wrong';
         }
       );
   }
 
   register() {
+    this.registerMessage = '';
     this.registerwaiting = true;
     this.authApiService
       .userRegister({
@@ -75,7 +77,7 @@ export class LoginComponent {
         },
         (err) => {
           this.registerwaiting = false;
-          this.registerMessage = err.error.message;
+          this.registerMessage = err.error.message || 'Something went wrong';
         }
       );
   }

@@ -1,19 +1,5 @@
 <div class="container">
   <main>
-    <div class="add-transcript">
-      <h2>You transcript goes here</h2>
-      <form (ngSubmit)="addTranscript()">
-        <textarea
-          name="transcript"
-          id="transcript"
-          cols="30"
-          rows="10"
-          autofocus
-          [(ngModel)]="transcript"
-        ></textarea>
-        <button type="submit">Add Transcript 📜</button>
-      </form>
-    </div>
     <div class="add-qnas">
       <h2>Add QnAs</h2>
       <p>
@@ -41,11 +27,4 @@
       </form>
     </div>
   </main>
-  <div id="train-div">
-    <p>
-      Now, you are ready to train your bot. Click on the button below to train
-      your bot.
-    </p>
-    <button>Train 💡</button>
-  </div>
 </div>

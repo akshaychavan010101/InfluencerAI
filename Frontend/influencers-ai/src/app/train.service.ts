@@ -24,6 +24,17 @@ export class TrainService {
     });
   }
 
+  addTranscriptFile(file: File): Observable<any> {
+    const url = `${this.baseUrl}/train/add-transcript-file`;
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(url, formData, {
+      headers: {
+        Authorization: `${this.token}`,
+      },
+    });
+  }
+
   getTranscripts(): Observable<any> {
     const url = `${this.baseUrl}/train/get-transcripts`;
     return this.http.get(url, {
@@ -34,12 +45,23 @@ export class TrainService {
   }
 
   addQnA(question: string, answer: string): Observable<any> {
-    const url = `${this.baseUrl}/train/add-qna`;
+    const url = `${this.baseUrl}/train/add-qnas`;
     const body = {
-      question,
-      answer,
+      sample_question: question,
+      sample_answer: answer,
     };
     return this.http.post(url, body, {
+      headers: {
+        Authorization: `${this.token}`,
+      },
+    });
+  }
+
+  addQnAFile(file: File): Observable<any> {
+    const url = `${this.baseUrl}/train/add-qnas-file`;
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(url, formData, {
       headers: {
         Authorization: `${this.token}`,
       },
@@ -58,6 +80,19 @@ export class TrainService {
   train(): Observable<any> {
     const url = `${this.baseUrl}/train`;
     return this.http.get(url, {
+      headers: {
+        Authorization: `${this.token}`,
+      },
+    });
+  }
+
+  // main function
+  generateResponse(query: string): Observable<any> {
+    const url = `${this.baseUrl}/train/generate-response`;
+    const body = {
+      query,
+    };
+    return this.http.post(url, body, {
       headers: {
         Authorization: `${this.token}`,
       },

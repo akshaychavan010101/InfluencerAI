@@ -72,7 +72,7 @@ tqdm==4.65.0
 tzdata==2023.3
 urllib3==1.26.16
 virtualenv==20.23.1
-Werkzeug==2.3.3
+Werkzeug==2.2.3
 wrapt==1.15.0
 wsproto==1.2.0
 yarl==1.9.2

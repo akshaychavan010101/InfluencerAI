@@ -55,7 +55,7 @@ pycparser==2.21
 PyJWT==2.7.0
 pymongo==4.4.0
 pytest==7.4.0
-python-dotenv==1.0.0
+python-dotenv==0.21.1
 python-engineio==4.5.0
 python-jwt==4.0.0
 python-socketio==5.8.0
